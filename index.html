@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Editor HTML Warna</title>
+  <!-- CodeMirror CSS & Theme -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/theme/material-darker.min.css">
+  <!-- CodeMirror Core & Modes -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/mode/css/css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.7/mode/htmlmixed/htmlmixed.min.js"></script>
+  <style>
+    body { margin:0; font-family: Arial, sans-serif; height:100vh; display:flex; flex-direction:column; }
+    .topbar {
+      background:#1e1e1e; color:#fff; padding:10px; display:flex; justify-content:space-between; align-items:center;
+    }
+    .topbar button {
+      background:#04AA6D; border:none; color:#fff; padding:8px 15px;
+      border-radius:5px; cursor:pointer; margin-left:5px;
+    }
+    .topbar button.reset { background:#e74c3c; }
+    .editor { flex:1; min-height:250px; }
+    iframe { flex:1; border:none; background:#fff; min-height:300px; }
+    .CodeMirror { height:100%; font-size:14px; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+        <div>
+      <button onclick="runCode()">▶ Run</button>
+      <button class="reset" onclick="resetCode()">⟲ Reset</button>
+    </div>
+  </div>
+
+  <!-- Editor -->
+  <div class="editor">
+    <textarea id="code">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Judul Halaman</title>
+</head>
+<body>
+  <h1>Halo Dunia!</h1>
+  <p>Ini paragraf pertama.</p>
+</body>
+</html>
+
+    </textarea>
+  </div>
+
+  <!-- Preview -->
+  <iframe id="output"></iframe>
+
+  <script>
+    let editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+      mode: "htmlmixed",
+      lineNumbers: true,
+      theme: "material-darker", // bisa ganti "dracula" / "monokai"
+      tabSize: 2,
+      lineWrapping: true
+    });
+
+    const defaultCode = editor.getValue();
+
+    function runCode() {
+      document.getElementById("output").srcdoc = editor.getValue();
+    }
+
+    function resetCode() {
+      editor.setValue(defaultCode);
+      runCode();
+    }
+
+    window.onload = runCode;
+  </script>
+</body>
+</html>
